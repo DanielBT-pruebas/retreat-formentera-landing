@@ -19,13 +19,14 @@
     }
     header h1{font-size:clamp(28px,4.4vw,44px);margin:0 0 10px}
     header p{margin:6px 0 0;font-size:clamp(16px,2.4vw,18px);opacity:.95}
-    .cta-bar{position:sticky;bottom:0;left:0;right:0;background:#ffffffd9;backdrop-filter:blur(8px);border-top:1px solid #e9eef0;padding:10px}
     .cta, .cta-outline{
       display:inline-flex;align-items:center;gap:10px;border-radius:999px;padding:12px 20px;font-weight:700;text-decoration:none
     }
     .cta{background:var(--brand);color:#fff;border:2px solid var(--brand)}
     .cta:hover{background:var(--brand2);border-color:var(--brand2)}
-    .cta-outline{border:2px solid var(--brand);color:var(--brand)}
+    /* Antes la cta-outline era solo borde; ahora la igualamos al estilo .cta */
+    .cta-outline{background:var(--brand);color:#fff;border:2px solid var(--brand)}
+    .cta-outline:hover{background:var(--brand2);border-color:var(--brand2)}
     .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;margin:28px 0}
     .card{grid-column:span 12;background:var(--muted);padding:18px;border-radius:14px}
     .card h3{margin:0 0 6px;font-size:20px}
@@ -43,12 +44,29 @@
     .check{color:var(--brand);margin-right:6px}
     .quote{background:#fafafa;border-left:4px solid var(--brand);padding:14px;border-radius:8px;margin:8px 0}
 
-    /* === Galería ligera (nueva) === */
-    .gallery{display:grid;grid-template-columns:1fr;gap:14px;margin-top:8px}
-    .gallery img{width:100%;height:auto;border-radius:12px;display:block}
-    @media(min-width:680px){
-      .gallery{grid-template-columns:repeat(3,1fr)}
-      .gallery .span-2{grid-column:span 2}
+    /* Galería 2 filas x 3 en desktop, 1 en móvil */
+    .gallery{
+      display:grid;
+      gap:14px;
+      grid-template-columns:1fr;
+      margin-top:14px;
+    }
+    @media(min-width:880px){
+      .gallery{grid-template-columns:repeat(3, 1fr);}
+    }
+    .tile{
+      position:relative;
+      width:100%;
+      aspect-ratio:4/3;
+      border-radius:12px;
+      overflow:hidden;
+      background:#ddd;
+    }
+    .tile img{
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      object-fit:cover;
+      display:block;
     }
   </style>
 
@@ -99,7 +117,7 @@
       <h3>Incluye</h3>
       <ul class="bullets">
         <li>Traslados en la isla según planificación.</li>
-        <li><strong>Brunch y cenas.</strong> Las cenas se disfrutarán en restaurantes de la isla frente al mar, con sabores locales y un entorno único. Una de ellas será algo totalmente distinto y especial… <em>una cena sorpresa que te enamorará</em> ✨ <br><small>(* todo incluído en el precio)</small></li>
+        <li>Brunch y cenas. Las cenas se disfrutarán en restaurantes de la isla frente al mar, con sabores locales y un entorno único. Una de ellas será algo totalmente distinto y especial… <em>una cena sorpresa que te enamorará</em> ✨ <br><small>(* todo incluído en el precio)</small></li>
         <li>Sesiones de nutrición integrativa (microbiota, envejecimiento, sistema nervioso).</li>
         <li>Clases de yoga adaptadas al nivel del grupo.</li>
         <li>Prácticas de respiración y meditación.</li>
@@ -118,13 +136,15 @@
         <li><strong>Día 3:</strong> Ruta costera + respiración, taller “Del estrés al bienestar”, cena antioxidante.</li>
         <li><strong>Día 4:</strong> Yoga al amanecer, brunch de despedida, organización del autocuidado diario.</li>
       </ul>
-      <!-- Galería ligera (nueva) -->
+
+      <!-- Galería 2x3 en desktop / 1 en móvil -->
       <div class="gallery" aria-label="Imágenes del retiro">
-        <img src="img/5662d72e.jpg" loading="lazy" alt="Alimentación saludable del retiro">
-        <img src="img/IMG_4915.jpg" loading="lazy" alt="Piscina del alojamiento" class="span-2">
-        <img src="img/IMG_5778.jpg" loading="lazy" alt="Terraza luminosa del hotel">
-        <img src="img/IMG_5780.jpg" loading="lazy" alt="Explorando la isla en coche clásico">
-        <img src="img/IMG_4910.jpg" loading="lazy" alt="Playa de Formentera de aguas cristalinas">
+        <div class="tile"><img src="img/5662d72e.jpg" loading="lazy" alt="Alimentación saludable del retiro"></div>
+        <div class="tile"><img src="img/IMG_4915.jpg" loading="lazy" alt="Piscina del alojamiento"></div>
+        <div class="tile"><img src="img/IMG_5780.jpg" loading="lazy" alt="Explorando la isla en coche clásico"></div>
+        <div class="tile"><img src="img/IMG_4910.jpg" loading="lazy" alt="Playa de Formentera de aguas cristalinas"></div>
+        <div class="tile"><img src="img/IMG_5778.jpg" loading="lazy" alt="Terraza luminosa del hotel"></div>
+        <div class="tile"><img src="img/WhatsApp Image 2025-09-05 at 14.08.15.jpeg" loading="lazy" alt="Cena frente al mar en Formentera al atardecer"></div>
       </div>
     </div>
   </section>
@@ -161,7 +181,6 @@
 
 <!-- CTA logic + tracking -->
 <script>
-  // Formato oficial sin "+"
   const wa = "https://wa.me/34625362844?text=Hola%20Irene%2C%20me%20interesa%20el%20retiro%20de%20Formentera.%20%C2%BFMe%20pasas%20la%20informaci%C3%B3n%3F&utm_source=meta&utm_medium=cpc&utm_campaign=retreat_landing&utm_content=cta";
 
   function trackAndGo(e){
